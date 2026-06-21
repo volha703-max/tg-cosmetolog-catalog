@@ -1,5 +1,10 @@
 # CLAUDE.md — Telegram Mini App: каталог услуг косметолога
 
+## GitHub
+- Репозиторий: https://github.com/volha703-max/tg-cosmetolog-catalog
+- Ветка: main
+- После любых изменений: git add + commit + push
+
 ## Что это за проект
 
 Telegram Mini App для частного косметолога-фрилансера. Визуальный каталог услуг + онлайн-запись в 3–4 шага. Целевая аудитория — один специалист, не салон.
