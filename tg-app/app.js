@@ -3,8 +3,10 @@
 // Навигация, рендер экранов, интеграция с Telegram SDK
 // ============================================
 
-// Объект Telegram Web App (null если открыто в браузере)
-const tg = window.Telegram?.WebApp || null;
+// Объект Telegram Web App — реальный только если запущено внутри Telegram
+// SDK грузится всегда, но platform === 'unknown' означает обычный браузер
+const _tgRaw = window.Telegram?.WebApp || null;
+const tg = (_tgRaw && _tgRaw.platform && _tgRaw.platform !== 'unknown') ? _tgRaw : null;
 
 // Состояние приложения
 const state = {
