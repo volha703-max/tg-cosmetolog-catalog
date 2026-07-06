@@ -1,0 +1,742 @@
+/* ============================================
+   style.css — Стили Telegram Mini App
+   Адаптируется под светлую и тёмную тему Telegram
+   ============================================ */
+
+/* --- Сброс и базовые правила --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* --- CSS-переменные: светлая тема --- */
+:root {
+  --bg:           var(--tg-theme-bg-color, #EFEFF4);
+  --bg-card:      var(--tg-theme-secondary-bg-color, #FFFFFF);
+  --text:         var(--tg-theme-text-color, #1C1C1E);
+  --text-hint:    var(--tg-theme-hint-color, #8E8E93);
+  --accent:       #2AABEE;
+  --accent-bg:    rgba(42, 171, 238, 0.10);
+  --brand:        #B88A7A;
+  --brand-bg:     rgba(184, 138, 122, 0.10);
+  --success:      #34C759;
+  --border:       rgba(0, 0, 0, 0.08);
+  --shadow:       0 2px 16px rgba(0, 0, 0, 0.07);
+  --shadow-sm:    0 1px 6px rgba(0, 0, 0, 0.05);
+  --radius:       16px;
+  --radius-sm:    10px;
+  --radius-xs:    8px;
+}
+
+/* --- Тёмная тема --- */
+body.dark {
+  --border:   rgba(255, 255, 255, 0.08);
+  --shadow:   0 2px 16px rgba(0, 0, 0, 0.30);
+  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.20);
+}
+
+/* --- Базовые стили --- */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  position: relative;
+  height: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ============================================
+   ЭКРАНЫ И ПЕРЕХОДЫ
+   ============================================ */
+
+.screen {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+}
+
+.screen.active {
+  display: block;
+  animation: slideIn 0.25s ease;
+}
+
+.screen.go-back.active {
+  animation: slideInBack 0.25s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0.4; transform: translateX(40px); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+
+@keyframes slideInBack {
+  from { opacity: 0.4; transform: translateX(-20px); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+
+/* ============================================
+   ШАПКА МАСТЕРА — Экран 1
+   ============================================ */
+
+.master-header {
+  background: var(--bg-card);
+  padding: 16px 16px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.master-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+
+.master-info h1 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.master-info p {
+  font-size: 13px;
+  color: var(--text-hint);
+  margin-top: 3px;
+}
+
+/* Подпись "Услуги" */
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-hint);
+  padding: 18px 16px 8px;
+}
+
+/* ============================================
+   КАРТОЧКИ УСЛУГ — Экран 1
+   ============================================ */
+
+#services-list {
+  padding: 0 16px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.service-card:active {
+  transform: scale(0.975);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Цветная шапка карточки */
+.service-card-image {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  position: relative;
+}
+
+/* Градиентная затемнение снизу */
+.service-card-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.12));
+  pointer-events: none;
+}
+
+.service-card-body {
+  padding: 12px 14px 14px;
+}
+
+.service-card-cat {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--brand);
+  margin-bottom: 3px;
+}
+
+.service-card-name {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin-bottom: 10px;
+}
+
+.service-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.service-card-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.service-card-dur {
+  font-size: 13px;
+  color: var(--text-hint);
+}
+
+.service-card-arrow {
+  font-size: 18px;
+  color: var(--text-hint);
+  margin-left: auto;
+  padding-left: 8px;
+}
+
+/* ============================================
+   КАРТОЧКА УСЛУГИ — Экран 2
+   ============================================ */
+
+.service-hero-img {
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  position: relative;
+}
+
+/* Скруглённый белый "листок" поверх изображения */
+.service-info-block {
+  background: var(--bg-card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  margin-top: -var(--radius);
+  position: relative;
+  padding: 20px 16px 0;
+}
+
+.service-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--brand-bg);
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.service-name-big {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.service-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.service-price-big {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.service-dur-big {
+  font-size: 15px;
+  color: var(--text-hint);
+}
+
+/* Блок "О процедуре" */
+.service-section-head {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-hint);
+  margin-bottom: 8px;
+}
+
+.service-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 20px;
+  padding: 0 16px;
+}
+
+/* Блок "Результат" */
+.service-result-block {
+  margin: 0 16px 20px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.service-result-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* Отзыв */
+.service-review-block {
+  margin: 0 16px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 110px;
+}
+
+.review-quote {
+  font-size: 28px;
+  color: var(--brand);
+  line-height: 0.8;
+  margin-bottom: 4px;
+  font-family: Georgia, serif;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.review-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-hint);
+}
+
+/* Кнопка внутри экрана (резервная, если без Telegram) */
+.btn-primary {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 0 16px 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0 20px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+  letter-spacing: -0.2px;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+/* Заголовок секции (для экранов 3, 4) */
+.screen-top {
+  background: var(--bg-card);
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.screen-top h2 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.screen-top p {
+  font-size: 13px;
+  color: var(--text-hint);
+  margin-top: 2px;
+}
+
+/* ============================================
+   ВЫБОР ДАТЫ И ВРЕМЕНИ — Экран 3
+   ============================================ */
+
+.dt-section {
+  padding: 16px 16px 0;
+}
+
+.dt-section-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-hint);
+  margin-bottom: 10px;
+}
+
+/* Сетка дат — 4 колонки */
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.date-chip {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 10px 4px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.14s ease;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.date-chip:active {
+  transform: scale(0.93);
+}
+
+.date-chip.selected {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.date-chip.unavailable {
+  opacity: 0.30;
+  pointer-events: none;
+}
+
+.date-chip-wd {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  letter-spacing: 0.4px;
+}
+
+.date-chip-num {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.date-chip-mo {
+  font-size: 10px;
+  color: var(--text-hint);
+}
+
+.date-chip.selected .date-chip-wd,
+.date-chip.selected .date-chip-mo {
+  color: var(--accent);
+}
+
+.date-chip.today .date-chip-num {
+  color: var(--accent);
+}
+
+/* Сетка времени — 4 колонки */
+.times-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding-bottom: 120px;
+}
+
+.time-chip {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.14s ease;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.time-chip:active {
+  transform: scale(0.93);
+}
+
+.time-chip.selected {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.time-chip.taken {
+  opacity: 0.25;
+  pointer-events: none;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* Подсказка при ненастроенной дате */
+.pick-date-hint {
+  text-align: center;
+  color: var(--text-hint);
+  font-size: 14px;
+  padding: 24px 0 100px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   ПОДТВЕРЖДЕНИЕ — Экран 4
+   ============================================ */
+
+.confirm-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  margin: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Цветная полоска сверху */
+.confirm-stripe {
+  height: 6px;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+}
+
+.confirm-body {
+  padding: 18px 16px 4px;
+}
+
+.confirm-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-hint);
+  margin-bottom: 16px;
+}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.confirm-row:last-child {
+  border-bottom: none;
+}
+
+.confirm-label {
+  font-size: 14px;
+  color: var(--text-hint);
+}
+
+.confirm-value {
+  font-size: 15px;
+  font-weight: 600;
+  text-align: right;
+  max-width: 60%;
+}
+
+.confirm-price-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Заметка под карточкой */
+.confirm-note {
+  margin: 12px 16px 110px;
+  padding: 12px 14px;
+  background: rgba(52, 199, 89, 0.08);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--success);
+  line-height: 1.5;
+}
+
+/* ============================================
+   УСПЕХ — Экран 5
+   ============================================ */
+
+.success-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 40px 20px 60px;
+  text-align: center;
+}
+
+/* Анимированный круг с галочкой */
+.success-circle {
+  width: 88px;
+  height: 88px;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  animation: popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-check {
+  width: 38px;
+  height: 38px;
+  stroke: #fff;
+  stroke-width: 3.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 55;
+  stroke-dashoffset: 55;
+  animation: drawCheck 0.4s ease 0.35s forwards;
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+.success-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.success-sub {
+  font-size: 15px;
+  color: var(--text-hint);
+  line-height: 1.55;
+  margin-bottom: 28px;
+  max-width: 280px;
+}
+
+/* Карточка с деталями записи */
+.success-card {
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.success-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.success-row:last-child {
+  border-bottom: none;
+}
+
+.success-icon {
+  font-size: 20px;
+  width: 26px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.success-text strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.success-text span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-hint);
+  margin-top: 1px;
+}
+
+/* Подпись про бота */
+.success-note {
+  font-size: 13px;
+  color: var(--text-hint);
+  line-height: 1.55;
+  padding: 0 8px;
+}
+
+.success-note strong {
+  color: var(--accent);
+}

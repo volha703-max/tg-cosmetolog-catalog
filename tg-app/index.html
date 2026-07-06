@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <!-- Запрет зума — важно для мобильного приложения -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Запись к косметологу</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Telegram Web App SDK — обязательно до app.js -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Экран 1: Каталог услуг (первый и главный) -->
+  <div id="screen-catalog" class="screen active">
+    <div id="master-header"></div>
+    <p class="section-label">Услуги</p>
+    <div id="services-list"></div>
+  </div>
+
+  <!-- Экран 2: Карточка услуги -->
+  <div id="screen-service" class="screen">
+    <div id="service-detail"></div>
+  </div>
+
+  <!-- Экран 3: Выбор даты и времени -->
+  <div id="screen-datetime" class="screen">
+    <div id="datetime-content"></div>
+  </div>
+
+  <!-- Экран 4: Подтверждение записи -->
+  <div id="screen-confirm" class="screen">
+    <div id="confirm-content"></div>
+  </div>
+
+  <!-- Экран 5: Успех — запись принята -->
+  <div id="screen-success" class="screen">
+    <div id="success-content"></div>
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
