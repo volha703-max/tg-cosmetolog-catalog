@@ -729,6 +729,28 @@ body {
   margin-top: 1px;
 }
 
+/* ============================================
+   КНОПКА НАЗАД — только в браузере (не в Telegram)
+   ============================================ */
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 12px 16px 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn:active {
+  opacity: 0.6;
+}
+
 /* Подпись про бота */
 .success-note {
   font-size: 13px;

@@ -54,9 +54,24 @@ function navigate(targetId) {
   state.history.push(state.screen);
   state.screen = targetId;
 
-  if (tg && state.history.length > 0) {
+  if (tg) {
     tg.BackButton.show();
+  } else {
+    // В браузере — добавляем HTML-кнопку «Назад» в начало экрана
+    renderBrowserBackButton(toEl);
   }
+}
+
+function renderBrowserBackButton(screenEl) {
+  // Удаляем старую кнопку если есть
+  const old = screenEl.querySelector('.back-btn');
+  if (old) old.remove();
+
+  const btn = document.createElement('button');
+  btn.className = 'back-btn';
+  btn.innerHTML = '‹ Назад';
+  btn.onclick = goBack;
+  screenEl.insertBefore(btn, screenEl.firstChild);
 }
 
 function goBack() {
@@ -76,6 +91,9 @@ function goBack() {
   // Убираем BackButton на главном экране
   if (tg && state.history.length === 0) {
     tg.BackButton.hide();
+  } else if (!tg && state.history.length === 0) {
+    const btn = toEl.querySelector('.back-btn');
+    if (btn) btn.remove();
   }
 
   // Восстанавливаем MainButton для экрана на который вернулись
